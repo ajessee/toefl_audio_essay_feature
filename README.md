@@ -14,4 +14,4 @@ In recent years, Flash’s position as the defacto way to present dynamic conten
 
 The how:
 
-![Workflow](https://github.com/ajessee/toefl_audio_essay_feature/blob/master/workflow_toefl_feature.svg)
+![Workflow](https://github.com/ajessee/toefl_audio_essay_feature/blob/master/images/workflow_toefl_feature.png)
