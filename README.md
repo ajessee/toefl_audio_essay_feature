@@ -16,7 +16,7 @@ In recent years, Flash’s position as the defacto way to present dynamic conten
 
 After doing my inital research, I started planning out the feature. Here is a workflow diagram that I put together to map out how the feature would work:
 
-**JASPER** = Kaplan's web application (Written in C#/.NET)
+**JASPER** = Kaplan's web application (Written in C#/.NET) \n
 **AWS Essay Grading API** = API I built using Amazon Web Service's Lamba and API Gateway services
 **UK API** = API built by our developers in London that handled that routed the student's audio/essay data to a web application they built for teachers to grade the data.
 
