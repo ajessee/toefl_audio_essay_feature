@@ -16,8 +16,10 @@ In recent years, Flash’s position as the defacto way to present dynamic conten
 
 After doing my inital research, I started planning out the feature. Here is a workflow diagram that I put together to map out how the feature would work:
 
-**JASPER** = Kaplan's web application (Written in C#/.NET) \n
+**JASPER** = Kaplan's web application (Written in C#/.NET)
+
 **AWS Essay Grading API** = API I built using Amazon Web Service's Lamba and API Gateway services
+
 **UK API** = API built by our developers in London that handled that routed the student's audio/essay data to a web application they built for teachers to grade the data.
 
 For each question in both the speaking and writing sections, we need to capture the student's response and then attach student/test/question metadata to the response. We then send a POST request with this data to the UK API. The UK API stores the audio/essay response as a file in a AWS S3 bucket.
