@@ -16,11 +16,33 @@ In recent years, Flash’s position as the defacto way to present dynamic conten
 
 After doing my inital research, I started planning out the feature. Here is a workflow diagram that I put together to map out how the feature would work:
 
+**JASPER** = Kaplan's web application (Written in C#/.NET)
+**AWS Essay Grading API** = API I built using Amazon Web Service's Lamba and API Gateway services
+**UK API** = API built by our developers in London that handled that routed the student's audio/essay data to a web application they built for teachers to grade the data.
+
+For each question in both the speaking and writing sections, we need to capture the student's response and then attach student/test/question metadata to the response. We then send a POST request with this data to the UK API. The UK API stores the audio/essay response as a file in a AWS S3 bucket.
+
+Once the student completes the test (or quits), we send a final POST request to the UK API to indicate that all the data has been submitted. This triggers the UK API to send all the data to another web application for grading by a teacher.
+
+At this point, a teacher logs in to the grading web app and begins to review the student responses. They grade each question and provide feedback and comments. Once the entire set of questions for that student's test have been graded, the grading web app makes a POST request to the AWS API with the grade data.
+
+The AWS API recieves this grade data, validates that the data is in the correct format, and then makes a series of POST requests back to JASPER in order to write the grades to the database and rescore the test. Once this is complete, a student can log back into JASPER and see their updated grade.
+
 ![Workflow](https://github.com/ajessee/toefl_audio_essay_feature/blob/master/images/workflow_toefl_feature.png)
 
+## Building the feature
 
-I built a feature into Kaplan Test Prep's online TOEFL test to be able to record student audio, record submitted essays, and then those files to teachers to be graded. I also built an API to recieve the grade data and then write that back to the web application's database.
+### Step 1
+
+For each question in the speaking section of the ETS test, a student is presented with a question prompt. On the next screen, they are given 15 seconds to prepare themselves to respond to the question. Once the 15 second countdown is over, the recording starts and a student has 45 seconds to speak. They can choose to end the recording early, or the recording stops at the end of the 45 seconds.
+
+To recreate this functionality, I first had to get metadata about the student, the test, and the question from JASPER's database. This metadata would serve two purposes - it would uniquely identify the student's responses 
+
+![Recording Screen](https://github.com/ajessee/toefl_audio_essay_feature/blob/master/images/speaking_screen.png)
+
+In order to capture the student's audio, I used a library called [Recordmp3js](https://github.com/Audior/Recordmp3js "Recordmp3js"). This library makes use of the [WebRTC (Web Real-Time Communications) ](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API "WebRTC (Web Real-Time Communications)") browser technology to capture and stream audio input. 
 
 
-The how:
+
+JASPER uses eXtensible Markup Language (XML) to store test prep assessment content (questions), and then uses EXtensible Stylesheet Language (XSL) to transform the XML document into HyperText Markup Language (HTML) to render what you see on the screen. The first thing I had to do was build a hidden webform into the XSL document to pull in metadata  
 
